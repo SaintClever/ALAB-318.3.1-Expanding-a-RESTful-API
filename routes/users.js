@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const users = require("../data/users");
+const posts = require("../data/posts");
 const error = require("../utilities/error");
 
 router
@@ -33,6 +34,29 @@ router
       users.push(user);
       res.json(users[users.length - 1]);
     } else next(error(400, "Insufficient Data"));
+  });
+
+router
+  .route("/:id/posts")
+  .get((req, res, next) => {
+    let userPost = [];
+    let paramsId = parseInt(req.params.id);
+
+    posts.forEach((post) => {
+      if (post.userId === paramsId) {
+        userPost.push(post);
+      }
+    });
+
+    const links = [
+      {
+        href: `/${req.params.id}/posts`,
+        rel: "id",
+        type: "GET",
+      },
+    ];
+
+    res.json({ userPost, links })
   });
 
 router
