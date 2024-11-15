@@ -32,6 +32,30 @@ router
   });
 
 router
+  .route("/userid=:id")
+  .get((req, res, next) => {
+    let userPost = [];
+    let paramsId = parseInt(req.params.id);
+
+    posts.forEach((post) => {
+      if (post.userId === paramsId) {
+        userPost.push(post);
+      }
+    });
+
+    const links = [
+      {
+        href: `/userid=${req.params.id}`,
+        rel: "id",
+        type: "GET",
+      },
+    ];
+
+    if (userPost) res.json({ userPost, links });
+     else next();
+  });
+
+router
   .route("/:id")
   .get((req, res, next) => {
     const post = posts.find((p) => p.id == req.params.id);

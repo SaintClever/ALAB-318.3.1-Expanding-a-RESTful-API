@@ -56,7 +56,8 @@ router
       },
     ];
 
-    res.json({ userPost, links })
+    if (userPost) res.json({ userPost, links });
+    else next();
   });
 
 router
