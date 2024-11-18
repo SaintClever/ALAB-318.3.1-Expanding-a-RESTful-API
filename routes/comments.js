@@ -31,4 +31,50 @@ router
     } else next(error(400, "Insufficient Data"));
   });
 
+  router
+  .route("/:id")
+  .get((req, res, next) => {
+    const comment = comments.find((p) => p.id == req.params.id);
+
+    const links = [
+      {
+        href: `/${req.params.id}`,
+        rel: "",
+        type: "PATCH",
+      },
+      {
+        href: `/${req.params.id}`,
+        rel: "",
+        type: "DELETE",
+      },
+    ];
+
+    if (comment) res.json({ comment, links });
+    else next();
+  })
+  .patch((req, res, next) => {
+    const comment = comments.find((p, i) => {
+      if (p.id == req.params.id) {
+        for (const key in req.body) {
+          comments[i][key] = req.body[key];
+        }
+        return true;
+      }
+    });
+
+    if (comment) res.json(comment);
+    else next();
+  })
+  .delete((req, res, next) => {
+    const comment = comments.find((p, i) => {
+      if (p.id == req.params.id) {
+        comments.splice(i, 1);
+        return true;
+      }
+    });
+
+    if (comment) res.json(comment);
+    else next();
+  });
+
   module.exports = router;

@@ -5,7 +5,14 @@ const comments = [
     postId: 1,
     body:
       "similique esse doloribus nihil accusamus\nomnis dolorem fuga consequuntur reprehenderit fugit recusandae temporibus\nperspiciatis cum ut laudantium\nomnis aut molestiae vel vero",
-    },
-  ];
+  },
+  {
+    id: 2,
+    userId: 2,
+    postId: 2,
+    body:
+      "similique esse doloribus nihil accusamus\nomnis dolorem fuga consequuntur reprehenderit fugit recusandae temporibus\nperspiciatis cum ut laudantium\nomnis aut molestiae vel vero",
+  },
+];
   
-  module.exports = comments;
+module.exports = comments;
