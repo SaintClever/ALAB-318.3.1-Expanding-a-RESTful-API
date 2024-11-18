@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const comments = require("../data/comments");
+const posts = require("../data/posts");
 const error = require("../utilities/error");
 
 router
@@ -29,6 +30,54 @@ router
       comments.push(comment);
       res.json(comments[comments.length - 1]);
     } else next(error(400, "Insufficient Data"));
+  });
+
+router
+  .route("/postid=:id")
+  .get((req, res, next) => {
+    let userPost = [];
+    let paramsId = parseInt(req.params.id);
+
+    posts.forEach((post) => {
+      if (post.userId === paramsId) {
+        userPost.push(post);
+      }
+    });
+
+    const links = [
+      {
+        href: `/postid=${req.params.id}`,
+        rel: "id",
+        type: "GET",
+      },
+    ];
+
+    if (userPost) res.json({ userPost, links });
+     else next();
+  });
+
+router
+  .route("/userid=:id")
+  .get((req, res, next) => {
+    let userComment = [];
+    let paramsId = parseInt(req.params.id);
+
+    comments.forEach((comment) => {
+      if (comment.userId === paramsId) {
+        userComment.push(comment);
+      }
+    });
+
+    const links = [
+      {
+        href: `/userid=${req.params.id}`,
+        rel: "id",
+        type: "GET",
+      },
+    ];
+
+    if (userComment) res.json({ userComment, links });
+     else next();
   });
 
   router
@@ -77,4 +126,4 @@ router
     else next();
   });
 
-  module.exports = router;
+module.exports = router;
