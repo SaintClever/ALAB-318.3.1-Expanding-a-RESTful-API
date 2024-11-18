@@ -80,7 +80,7 @@ router
      else next();
   });
 
-  router
+router
   .route("/:id")
   .get((req, res, next) => {
     const comment = comments.find((p) => p.id == req.params.id);
